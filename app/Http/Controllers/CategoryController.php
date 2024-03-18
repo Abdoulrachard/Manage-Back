@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryFormRequest;
+use App\Http\Resources\CategoryCollection;
 use App\Models\Category;
 
 use Illuminate\Http\Request;
@@ -32,7 +33,9 @@ class CategoryController extends Controller
     public function store(CategoryFormRequest $request)
     {
         $category = Category::create($request->validated());
-        return redirect()->route('category.index')->with('success', "La catégorie a bien été créée !");
+        toastr()->success("La catégorie a bien été créée ! ", 'Congrats', ['timeOut' => 8000]);
+
+        return redirect()->route('category.index');
     }
 
     /**
@@ -43,13 +46,17 @@ class CategoryController extends Controller
         return view('categories.form', ['category' => $category]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+   public function show( Category $category){
+
+        return $this->success(new CategoryCollection($category));
+   
+    }
     public function update(CategoryFormRequest $request, Category $category)
     {
         $category->update($request->validated());
-        return redirect()->route('category.index')->with('success',  "La catégorie à bien été modifier !");
+        toastr()->success("La catégorie à bien été modifier ! ", 'Congrats', ['timeOut' => 8000]);
+
+        return redirect()->route('category.index');
     }
 
     /**
@@ -58,6 +65,8 @@ class CategoryController extends Controller
     public function destroy(  Category $category)
     {
         $category->delete();
-        return to_route('category.index')->with('success',"La catégorie à été bien supprimmer !");
+        toastr()->success("La catégorie à été bien supprimmer ! ", 'Congrats', ['timeOut' => 8000]);
+        
+        return to_route('category.index');
     }
 }

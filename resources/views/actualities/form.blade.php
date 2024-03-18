@@ -35,7 +35,7 @@
                 <div class="col-md-6">
                     <x-forms.input type="file"  name='cover' :value="$actuality->cover" label='Importez une image' multiple=true  />
                     @if ($actuality->cover)
-                        <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300">
+                        <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300"style="display: flex; justify-content: center;">
                             <img src="{{ asset("/storage/actualities/covers/" . $actuality->cover->path) }}" alt="Image actuelle"
                                 class="w-full h-full object-cover" style="width: 100%; height: auto;">
                         </div>

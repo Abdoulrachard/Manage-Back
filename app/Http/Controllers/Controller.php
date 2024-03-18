@@ -14,7 +14,7 @@ class Controller extends BaseController
     protected function upload_file(
         FormRequest $request,
         string $fileLabel,
-        string $path = 'actualities/covers'
+        string $path  
     ): string {
         if ($request->hasFile($fileLabel)) {
             $coverFile = $request->file($fileLabel);

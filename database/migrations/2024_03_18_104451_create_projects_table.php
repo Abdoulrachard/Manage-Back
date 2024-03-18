@@ -14,15 +14,19 @@ return new class extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cover_id')->constrained("galleries")->onDelete('CASCADE');
+            $table->string('year');
             $table->string('project_name');
             $table->string('city');
             $table->longText('descriptions');
             $table->string('developer');
             $table->string('maitre_ouvre');
-            $table->string('typologie');
-            $table->string('programme');
-            $table->string('procedure');
-            $table->string('signaletique');
+            $table->string('typologie')->nullable();
+            $table->text('programme')->nullable();
+            $table->string('procedure')->nullable();
+            $table->string('signaletique')->nullable();
+            $table->string('surface')->nullable();
+            $table->string('realisation')->nullable();
+            $table->string('volume')->nullable();
             $table->timestamps();
         });
     }

@@ -35,7 +35,7 @@ class ActualityController extends Controller
         try {
             $validatedData = $request->validated();
 
-            $cover = Gallery::create(['path' => $this->upload_file($request, 'cover')]);
+            $cover = Gallery::create(['path' => $this->upload_file($request, 'cover' , 'actualities/covers')]);
 
             $validatedData['cover_id'] = $cover->id;
 
@@ -43,7 +43,9 @@ class ActualityController extends Controller
 
             $actuality = Actuality::create($validatedData);
 
-            return redirect()->route('actuality.index')->with('success', "L'actualité a bien été créée !");
+            toastr()->success(" L'actualité à bien été créée ! ", 'Congrats', ['timeOut' => 8000]);
+
+            return redirect()->route('actuality.index');
         } catch (\Exception $e) {
 
             dd($e->getMessage());
@@ -59,11 +61,6 @@ class ActualityController extends Controller
 
     public function show(Actuality $actuality)
     {
-        //dd(url('storage/' . $actuality->cover->path));
-
-        // $actuality = Actuality::find($id);
-
-        // dd($actuality->title);
 
         return $this->success(new ActualityCollection($actuality));
     }
@@ -78,7 +75,7 @@ class ActualityController extends Controller
             Storage::delete("public/actualities/covers/$actuality->path");
             $cover = Gallery::find($actuality->cover_id);
 
-            $cover->update(['path' => $this->upload_file($request, 'cover')]);
+            $cover->update(['path' => $this->upload_file($request, 'cover', 'actualities/covers')]);
 
             $data['cover_id'] = $cover->id;
 
@@ -87,13 +84,16 @@ class ActualityController extends Controller
         unset($data['cover']);
 
         $actuality->update($data);
+        toastr()->success(" L'actualité à bien été modifier !! ", 'Congrats', ['timeOut' => 8000]);
 
-        return redirect()->route('actuality.index')->with('success', "L'actualité à bien été modifier !");
+        return redirect()->route('actuality.index');
     }
 
     public function destroy(Actuality $actuality)
     {
         $actuality->delete();
-        return redirect()->route('actualities.index')->with('success', "L'actualité à été bien supprimmer !");
+        toastr()->success(" L'actualité à bien été supprimer ! ", 'Congrats', ['timeOut' => 8000]);
+        
+        return redirect()->route('actuality.index');
     }
 }

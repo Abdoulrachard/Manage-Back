@@ -12,7 +12,7 @@ class Project extends Model
     
     use HasFactory;
     protected $fillable = [
-        'project_name','city', 'developer', 'maitre_ouvre', 'typologie', 'programme','procedure', 'signaletique' , 'descriptions', 'cover_id', 
+        'year' , 'project_name','city', 'developer', 'maitre_ouvre', 'typologie', 'programme','procedure', 'signaletique' , 'descriptions', 'cover_id','surface','realisation','volume', 
     ];
 
     public function cover() : BelongsTo 

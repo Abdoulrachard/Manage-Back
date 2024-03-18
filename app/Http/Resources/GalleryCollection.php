@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -15,15 +16,11 @@ class GalleryCollection extends ResourceCollection
      */
     public function toArray(Request $request): array
     {
-        $yourDate = Carbon::parse($request->created_at);
-        $currentDateTime = Carbon::now();
-
-        $formattedTime = $yourDate->diffForHumans($currentDateTime);
 
         return [
             'id' => $this->id,
             'path' => $this->path,
-            'date' => $formattedTime,
+            'date' => (new DateTime($this->created_at))->format('Y-m-d'),
         ];
     }
 }

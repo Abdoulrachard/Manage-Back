@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActualityController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,7 @@ Route::middleware('auth')->prefix('dashboard')->group(function () {
 
     Route::resource('actuality', ActualityController::class);
     Route::resource('category', CategoryController::class);
+    Route::resource('project', ProjectController::class);
 })->name('dashboard.');
 
 Route::middleware('auth')->group(function () {
