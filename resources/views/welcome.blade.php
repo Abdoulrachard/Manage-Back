@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12 text-center">
-        <h1> {{ Auth::user()->name }} Welcome </h1>
+        <h1> {{ Auth::user()->name }}   Welcome </h1>
     </div>
     <div class="d-flex justify-content-center gap-2">
         <a href="{{ route('actuality.index')}}" class="btn btn-primary">Actuality</a>
