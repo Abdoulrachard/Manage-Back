@@ -65,6 +65,17 @@
                         </div>
                     @endif
                 </div>
+                <div class="col-md-6">
+                    <x-forms.input type="file" name='additional_images[]' label='Importez des images' multiple="true" />
+                    @if ($project->galleries->isNotEmpty())
+                        @foreach ($project->galleries as $gallery)
+                            <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; justify-content: center;">
+                                <img src="{{ asset("/storage/projects/additional_images/" . $gallery->path) }}" alt="Image supplémentaire"
+                                    class="w-full h-full object-cover" style="width: 100%; height: auto;">
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
                 <div class="col-md-12 ">
                     <x-forms.textarea name='descriptions' :value="$project->descriptions" label='Descriptions' />
                 </div>

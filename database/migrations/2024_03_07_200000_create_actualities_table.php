@@ -19,6 +19,13 @@ return new class extends Migration
             $table->text('description');
             $table->timestamps();
         });
+
+        Schema::create('actuality_gallery', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('actuality_id')->constrained()->onDelete('cascade');
+            $table->foreignId('gallery_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -26,6 +33,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('actuality_gallery');
         Schema::dropIfExists('actualities');
     }
 };

@@ -25,6 +25,8 @@ class ActualityFormRequest extends FormRequest
             'title' => ['required'],
             "description" => ['required'],
             "category_id" => ["required"],
-            'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'],        ];
+            'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'], 
+            'additional_images.*' => ['nullable', 'image', 'mimes:jpg,bmp,png,jpeg', 'max:2048'],
+        ];
     }
 }

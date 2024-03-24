@@ -13,7 +13,7 @@ class Actuality extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description', 'cover_id', 'category_id'
+        'title', 'description', 'cover_id', 'category_id',
     ];
 
     public function cover() : BelongsTo 

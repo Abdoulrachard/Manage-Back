@@ -29,22 +29,30 @@ class EquipeController extends Controller
 
     public function store(EquipeFormRequest $request)
     {
-
         try {
             $validatedData = $request->validated();
-
+    
+            // Traitement de la couverture principale
             $cover = Gallery::create(['path' => $this->upload_file($request, 'cover', 'equipes/covers')]);
-
             $validatedData['cover_id'] = $cover->id;
-
             unset($validatedData['cover']);
-
+    
+            // Création de l'équipe
             $equipe = Equipe::create($validatedData);
-            toastr()->success("L'equipe a bien été créée ! ", 'Congrats', ['timeOut' => 8000]);
-
+    
+            // Traitement des images supplémentaires
+            if ($request->hasFile('additional_images')) {
+                $additionalImages = [];
+                foreach ($request->file('additional_images') as $image) {
+                    $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'equipes/additional_images')]);
+                    $additionalImages[] = $gallery->id;
+                }
+                $equipe->galleries()->attach($additionalImages);
+            }
+    
+            toastr()->success("L'équipe a bien été créée !", 'Congrats', ['timeOut' => 8000]);
             return redirect()->route('equipe.index');
         } catch (\Exception $e) {
-
             dd($e->getMessage());
         }
     }
@@ -60,28 +68,33 @@ class EquipeController extends Controller
     }
 
     public function update(EquipeFormRequest $request, Equipe $equipe)
-    {
+{
+    $data = $request->validated();
 
-        $data = $request->validated();
+    // Traitement de la couverture principale
+    if ($request->hasFile('cover')) {
+        Storage::delete("public/equipes/covers/{$equipe->cover->path}");
+        $cover = Gallery::find($equipe->cover_id);
+        $cover->update(['path' => $this->upload_file($request, 'cover', 'equipes/covers')]);
+        $data['cover_id'] = $cover->id;
+    }
+    unset($data['cover']);
 
-        if ($request->hasFile('cover')) {
-
-            Storage::delete("public/equipes/covers/$equipe->path");
-            $cover = Gallery::find($equipe->cover_id);
-
-            $cover->update(['path' => $this->upload_file($request, 'cover' , 'equipes/covers')]);
-
-            $data['cover_id'] = $cover->id;
-
+    // Traitement des images supplémentaires
+    if ($request->hasFile('additional_images')) {
+        $additionalImages = [];
+        foreach ($request->file('additional_images') as $image) {
+            $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'equipes/additional_images')]);
+            $additionalImages[] = $gallery->id;
         }
-
-        unset($data['cover']);
-
-        $equipe->update($data);
-        toastr()->success("L'equipe à bien été modifier !" ,'Congrats', ['timeOut' => 8000] );
-        return redirect()->route('equipe.index');
+        $equipe->galleries()->sync($additionalImages);
     }
 
+    // Mise à jour de l'équipe
+    $equipe->update($data);
+    toastr()->success("L'équipe a bien été modifiée !", 'Congrats', ['timeOut' => 8000]);
+    return redirect()->route('equipe.index');
+}
     public function destroy(Equipe $equipe)
     {
         $equipe->delete();

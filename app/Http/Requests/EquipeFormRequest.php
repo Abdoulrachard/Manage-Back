@@ -28,7 +28,8 @@ class EquipeFormRequest extends FormRequest
             'descriptions' => ['required'],
             'formations' => ['required'],
             'selections' => ['required'],
-            'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'], 
+            'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'],
+            'additional_images.*' => ['nullable', 'image', 'mimes:jpg,bmp,png,jpeg', 'max:2048'], 
         ];
     }
 }

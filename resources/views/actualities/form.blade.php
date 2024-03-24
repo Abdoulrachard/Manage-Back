@@ -33,7 +33,7 @@
                     </x-forms.select>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input type="file"  name='cover' :value="$actuality->cover" label='Importez une image' multiple=true  />
+                    <x-forms.input type="file"  name='cover' :value="$actuality->cover" label='Importez une image'   />
                     @if ($actuality->cover)
                         <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300"style="display: flex; justify-content: center;">
                             <img src="{{ asset("/storage/actualities/covers/" . $actuality->cover->path) }}" alt="Image actuelle"
@@ -41,6 +41,19 @@
                         </div>
                     @endif
                 </div>
+                <div class="col-md-6">
+                    <x-forms.input type="file" name='additional_images[]' label='Importez des images' multiple="true" />
+                    @if ($actuality->galleries->isNotEmpty())
+                        @foreach ($actuality->galleries as $gallery)
+                            <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; justify-content: center;">
+                                <img src="{{ asset("/storage/actualities/additional_images/" . $gallery->path) }}" alt="Image supplémentaire"
+                                    class="w-full h-full object-cover" style="width: 100%; height: auto;">
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+                
+                
                 <div class="col-md-12 ">
                     <x-forms.textarea name='description' :value="$actuality->description" label='Descriptions' />
                 </div>

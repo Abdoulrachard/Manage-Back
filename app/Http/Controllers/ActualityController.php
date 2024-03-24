@@ -28,30 +28,6 @@ class ActualityController extends Controller
         return view('actualities.form', ['actuality' => $actuality, 'categories' => $categories]);
     }
 
-
-    public function store(ActualityFormRequest $request)
-    {
-
-        try {
-            $validatedData = $request->validated();
-
-            $cover = Gallery::create(['path' => $this->upload_file($request, 'cover' , 'actualities/covers')]);
-
-            $validatedData['cover_id'] = $cover->id;
-
-            unset($validatedData['cover']);
-
-            $actuality = Actuality::create($validatedData);
-
-            toastr()->success(" L'actualité à bien été créée ! ", 'Congrats', ['timeOut' => 8000]);
-
-            return redirect()->route('actuality.index');
-        } catch (\Exception $e) {
-
-            dd($e->getMessage());
-        }
-    }
-
     public function edit(Actuality $actuality)
     {
         $categories = Category::all();
@@ -65,27 +41,62 @@ class ActualityController extends Controller
         return $this->success(new ActualityCollection($actuality));
     }
 
+    public function store(ActualityFormRequest $request)
+    {
+        try {
+            $validatedData = $request->validated();
+
+            // Traitement de la couverture principale
+            $cover = Gallery::create(['path' => $this->upload_file($request, 'cover', 'actualities/covers')]);
+            $validatedData['cover_id'] = $cover->id;
+            unset($validatedData['cover']);
+
+            // Création de l'actualité
+            $actuality = Actuality::create($validatedData);
+
+            // Traitement des images supplémentaires
+            if ($request->hasFile('additional_images')) {
+                $additionalImages = [];
+                foreach ($request->file('additional_images') as $image) {
+                    $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'actualities/additional_images')]);
+                    $additionalImages[] = $gallery->id;
+                }
+                $actuality->galleries()->attach($additionalImages);
+            }
+
+            toastr()->success(" L'actualité a bien été créée ! ", 'Congrats', ['timeOut' => 8000]);
+            return redirect()->route('actuality.index');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
     public function update(CoverUpdateRequest $request, Actuality $actuality)
     {
-
         $data = $request->validated();
 
+        // Traitement de la couverture principale
         if ($request->hasFile('cover')) {
-
-            Storage::delete("public/actualities/covers/$actuality->path");
+            Storage::delete("public/actualities/covers/{$actuality->cover->path}");
             $cover = Gallery::find($actuality->cover_id);
-
             $cover->update(['path' => $this->upload_file($request, 'cover', 'actualities/covers')]);
-
             $data['cover_id'] = $cover->id;
-
         }
-
         unset($data['cover']);
 
-        $actuality->update($data);
-        toastr()->success(" L'actualité à bien été modifier !! ", 'Congrats', ['timeOut' => 8000]);
+        // Traitement des images supplémentaires
+        if ($request->hasFile('additional_images')) {
+            $additionalImages = [];
+            foreach ($request->file('additional_images') as $image) {
+                $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'actualities/additional_images')]);
+                $additionalImages[] = $gallery->id;
+            }
+            $actuality->galleries()->sync($additionalImages);
+        }
 
+        // Mise à jour de l'actualité
+        $actuality->update($data);
+        toastr()->success(" L'actualité a bien été modifiée ! ", 'Congrats', ['timeOut' => 8000]);
         return redirect()->route('actuality.index');
     }
 

@@ -28,7 +28,8 @@ class ProjectFormRequest extends FormRequest
             'descriptions' => ['required'],
             'developer' => ['required'],
             'maitre_ouvre' => ['required'],
-            'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'], 
+            'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'],
+            'additional_images.*' => ['nullable', 'image', 'mimes:jpg,bmp,png,jpeg', 'max:2048'],
         ];
     }
 }

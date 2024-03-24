@@ -25,6 +25,13 @@ return new class extends Migration
             $table->string('selections');
             $table->timestamps();
         });
+
+        Schema::create('equipe_gallery', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('equipe_id')->constrained()->onDelete('cascade');
+            $table->foreignId('gallery_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -32,6 +39,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('equipe_gallery');
         Schema::dropIfExists('equipes');
     }
 };
