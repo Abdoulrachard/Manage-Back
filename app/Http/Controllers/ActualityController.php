@@ -17,7 +17,6 @@ class ActualityController extends Controller
     public function index()
     {
         return view('actualities.index', ['actualities' => Actuality::paginate(25)]);
-        // $this->success(Actuality::all()->orderBy('created_at' , 'desc')->paginate(25))
     }
 
 
@@ -37,39 +36,33 @@ class ActualityController extends Controller
 
     public function show(Actuality $actuality)
     {
-
         return $this->success(new ActualityCollection($actuality));
     }
-
     public function store(ActualityFormRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
-
+        $validatedData = $request->validated();
+        
             // Traitement de la couverture principale
-            $cover = Gallery::create(['path' => $this->upload_file($request, 'cover', 'actualities/covers')]);
-            $validatedData['cover_id'] = $cover->id;
+            $validatedData['cover_path'] = $this->upload_file($request->file('cover'), 'cover', 'actualities/covers');
             unset($validatedData['cover']);
 
             // Création de l'actualité
             $actuality = Actuality::create($validatedData);
-
+        
             // Traitement des images supplémentaires
             if ($request->hasFile('additional_images')) {
-                $additionalImages = [];
                 foreach ($request->file('additional_images') as $image) {
-                    $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'actualities/additional_images')]);
-                    $additionalImages[] = $gallery->id;
+                    // Création de la galerie associée à l'actualité nouvellement créée
+                    $actuality->galleries()->create(['path' => $this->upload_file($image, 'additional_images', 'actualities/additional_images'),'actuality_id' => $actuality->id,]);
                 }
-                $actuality->galleries()->attach($additionalImages);
             }
-
+        
             toastr()->success(" L'actualité a bien été créée ! ", 'Congrats', ['timeOut' => 8000]);
             return redirect()->route('actuality.index');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
     }
+    
+    
+    
 
     public function update(CoverUpdateRequest $request, Actuality $actuality)
     {
@@ -77,11 +70,10 @@ class ActualityController extends Controller
 
         // Traitement de la couverture principale
         if ($request->hasFile('cover')) {
-            Storage::delete("public/actualities/covers/{$actuality->cover->path}");
-            $cover = Gallery::find($actuality->cover_id);
-            $cover->update(['path' => $this->upload_file($request, 'cover', 'actualities/covers')]);
-            $data['cover_id'] = $cover->id;
+            Storage::delete("public/actualities/covers/{$actuality->cover_path}");
+            $actuality->update(['cover_path' => $this->upload_file($request->file('cover'), 'cover', 'actualities/covers')]);
         }
+        
         unset($data['cover']);
 
         // Traitement des images supplémentaires
@@ -103,8 +95,19 @@ class ActualityController extends Controller
     public function destroy(Actuality $actuality)
     {
         $actuality->delete();
-        toastr()->success(" L'actualité à bien été supprimer ! ", 'Congrats', ['timeOut' => 8000]);
+        toastr()->success(" L'actualité a bien été supprimée ! ", 'Congrats', ['timeOut' => 8000]);
         
         return redirect()->route('actuality.index');
+    }
+
+    protected function upload_file($file, string $fileLabel, string $path): string
+    {
+        if ($file) {
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->storePubliclyAs('public/' . $path, $fileName);
+
+            return $fileName;
+        }
+        return 'null';
     }
 }

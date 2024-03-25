@@ -13,13 +13,9 @@ class Actuality extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'description', 'cover_id', 'category_id',
+        'title', 'description', 'cover_path', 'category_id',
     ];
 
-    public function cover() : BelongsTo 
-    {
-            return $this->belongsTo(Gallery::class) ;
-    }
 
     public function category() : BelongsTo 
     {

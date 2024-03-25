@@ -12,17 +12,17 @@ class Controller extends BaseController
     use AuthorizesRequests, ValidatesRequests, BaseResponse;
 
     protected function upload_file(
-        FormRequest $request,
+        \Illuminate\Http\UploadedFile $file,
         string $fileLabel,
         string $path  
     ): string {
-        if ($request->hasFile($fileLabel)) {
-            $coverFile = $request->file($fileLabel);
-            $fileName = uniqid() . '.' . $coverFile->getClientOriginalExtension();
-            $coverFile->storePubliclyAs('public/' . $path, $fileName);
-
+        if ($file->isValid()) {
+            $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->storePubliclyAs('public/' . $path, $fileName);
+    
             return $fileName;
         }
         return 'null';
     }
+    
 }

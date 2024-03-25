@@ -13,17 +13,10 @@ return new class extends Migration
     {
         Schema::create('actualities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cover_id')->constrained("galleries")->onDelete('CASCADE');
-            $table->foreignId('category_id')->constrained();
             $table->string('title');
             $table->text('description');
-            $table->timestamps();
-        });
-
-        Schema::create('actuality_gallery', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('actuality_id')->constrained()->onDelete('cascade');
-            $table->foreignId('gallery_id')->constrained()->onDelete('cascade');
+            $table->string('cover_path');
+            $table->foreignId('category_id')->constrained()->onDelete('CASCADE');
             $table->timestamps();
         });
     }
@@ -33,7 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('actuality_gallery');
         Schema::dropIfExists('actualities');
     }
 };

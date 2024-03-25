@@ -61,7 +61,7 @@
                                 <img src="{{ asset("/storage/equipes/additional_images/" . $gallery->path) }}" alt="Image supplémentaire"
                                     class="w-full h-full object-cover" style="width: 100%; height: auto;">
                             </div>
-                        @endforeach
+                        @endforeachw
                     @endif
                 </div>
                 <div class="col-md-12 ">
