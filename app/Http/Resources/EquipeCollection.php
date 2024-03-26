@@ -16,7 +16,7 @@ class EquipeCollection extends JsonResource
     {
         return [
             'id' => $this->id,
-            'cover' => $this->cover,
+            'cover_path' => $this->cover_path,
             'name' => $this->name,
             'posted' => $this->posted,
             'domaine de competence'=> $this->domaine_competence,
@@ -25,7 +25,9 @@ class EquipeCollection extends JsonResource
             'affilations' => $this->affilations,
             'curriculum vitae' => $this->curiculum,
             'links' => $this->links,
-            'selection' => $this->selection,
+            'selections' => $this->selections,
+            'additional_images.*'=>$this->galleries
         ];
+    
     }
 }

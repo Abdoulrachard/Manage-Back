@@ -11,7 +11,7 @@ class Gallery extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['path'] ;
+    protected $fillable = ['path','galleriestable_id' ,'galleriestable_type'] ;
     public function actuality(): BelongsTo
     {
         return $this->belongsTo(Actuality::class);

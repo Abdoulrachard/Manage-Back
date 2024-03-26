@@ -64,39 +64,65 @@ class ActualityController extends Controller
     public function update(CoverUpdateRequest $request, Actuality $actuality)
     {
         $data = $request->validated();
-
+    
         // Traitement de la couverture principale
         if ($request->hasFile('cover')) {
             Storage::delete("public/actualities/covers/{$actuality->cover_path}");
-            $actuality->update(['cover_path' => $this->upload_file($request->file('cover'), 'cover', 'actualities/covers')]);
+            $actuality->update(['cover_path' => $this->upload_file($request->file('cover'), 'cover', 'actuality/covers')]);
         }
-        
+    
         unset($data['cover']);
-
+    
         // Traitement des images supplémentaires
         if ($request->hasFile('additional_images')) {
-            $additionalImages = [];
-            foreach ($request->file('additional_images') as $image) {
-                $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'actualities/additional_images')]);
-                $additionalImages[] = $gallery->id;
+            // Récupérer les anciennes images supplémentaires de l'équipe
+            $oldImages = $actuality->galleries()->get();
+    
+            // Supprimer les enregistrements des anciennes images de la base de données
+            $actuality->galleries()->delete();
+    
+            // Parcourir les anciennes images et les supprimer du dossier de stockage
+            foreach ($oldImages as $image) {
+                Storage::delete("public/actualities/additional_images/{$image->path}");
             }
-            $actuality->galleries()->sync($additionalImages);
+    
+            // Ajouter les nouvelles images supplémentaires à la relation et les stocker dans le dossier de stockage
+            foreach ($request->file('additional_images') as $image) {
+                $gallery = Gallery::create([
+                    'path' => $this->upload_file($image, 'additional_images', 'actualities/additional_images'),
+                    'galleriestable_id' => $actuality->id,
+                    'galleriestable_type' => Actuality::class,
+                ]);
+            }
         }
-
-        // Mise à jour de l'actualité
+    
+        // Mise à jour de l'équipe
         $actuality->update($data);
-        toastr()->success(" L'actualité a bien été modifiée ! ", 'Congrats', ['timeOut' => 8000]);
+    
+        toastr()->success(" L'actualité a bien été modifiée ! ", 'Félicitations', ['timeOut' => 8000]);
         return redirect()->route('actuality.index');
     }
+    
+    
 
     public function destroy(Actuality $actuality)
-    {
-        $actuality->delete();
-        toastr()->success(" L'actualité a bien été supprimée ! ", 'Congrats', ['timeOut' => 8000]);
-        
-        return redirect()->route('actuality.index');
+{
+    // Supprimer le cover de l'équipe s'il existe
+    if ($actuality->cover_path) {
+        Storage::disk('public')->delete("actualities/covers/{$actuality->cover_path}");
     }
 
+    // Supprimer les images supplémentaires de la galerie de l'équipe
+    foreach ($actuality->galleries as $gallery) {
+        Storage::disk('public')->delete("actualities/additional_images/{$gallery->path}");
+    }
+
+    // Supprimer l'équipe et toutes ses relations
+    $actuality->delete();
+
+    toastr()->success("L'actualité a été supprimée avec succès !", 'Félicitations', ['timeOut' => 8000]);
+    return redirect()->route('actuality.index');
+}
     protected function upload_file($file, string $fileLabel, string $path): string
     {
         if ($file) {

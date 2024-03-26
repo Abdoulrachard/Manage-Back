@@ -51,30 +51,45 @@ class ProjectController extends Controller
     public function update(ProjectCoverUpdate $request, Project $project)
     {
         $data = $request->validated();
-
+    
         // Traitement de la couverture principale
         if ($request->hasFile('cover')) {
             Storage::delete("public/projects/covers/{$project->cover_path}");
             $project->update(['cover_path' => $this->upload_file($request->file('cover'), 'cover', 'projects/covers')]);
         }
-        
+    
         unset($data['cover']);
-
+    
         // Traitement des images supplémentaires
         if ($request->hasFile('additional_images')) {
-            $additionalImages = [];
-            foreach ($request->file('additional_images') as $image) {
-                $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'projects/additional_images')]);
-                $additionalImages[] = $gallery->id;
+            // Récupérer les anciennes images supplémentaires de l'équipe
+            $oldImages = $project->galleries()->get();
+    
+            // Supprimer les enregistrements des anciennes images de la base de données
+            $project->galleries()->delete();
+    
+            // Parcourir les anciennes images et les supprimer du dossier de stockage
+            foreach ($oldImages as $image) {
+                Storage::delete("public/projects/additional_images/{$image->path}");
             }
-            $project->galleries()->sync($additionalImages);
+    
+            // Ajouter les nouvelles images supplémentaires à la relation et les stocker dans le dossier de stockage
+            foreach ($request->file('additional_images') as $image) {
+                $gallery = Gallery::create([
+                    'path' => $this->upload_file($image, 'additional_images', 'projects/additional_images'),
+                    'galleriestable_id' => $project->id,
+                    'galleriestable_type' => Project::class,
+                ]);
+            }
         }
-
-        // Mise à jour de l'actualité
+    
+        // Mise à jour de l'équipe
         $project->update($data);
-        toastr()->success(" Le project a bien été modifiée ! ", 'Congrats', ['timeOut' => 8000]);
+    
+        toastr()->success(" Le project a bien été modifiée ! ", 'Félicitations', ['timeOut' => 8000]);
         return redirect()->route('project.index');
     }
+
 
     public function edit(Project $project)
     {
@@ -87,8 +102,20 @@ class ProjectController extends Controller
     }
     public function destroy(Project $project)
     {
+        // Supprimer le cover de l'équipe s'il existe
+        if ($project->cover_path) {
+            Storage::disk('public')->delete("projects/covers/{$project->cover_path}");
+        }
+    
+        // Supprimer les images supplémentaires de la galerie de l'équipe
+        foreach ($project->galleries as $gallery) {
+            Storage::disk('public')->delete("projects/additional_images/{$gallery->path}");
+        }
+    
+        // Supprimer l'équipe et toutes ses relations
         $project->delete();
-        toastr()->success("Le projet a été supprimé avec succès !", 'Congrats', ['timeOut' => 8000]);
-        return redirect()->route('projects.index');
+    
+        toastr()->success("Le projet a été supprimée avec succès !", 'Félicitations', ['timeOut' => 8000]);
+        return redirect()->route('project.index');
     }
 }
