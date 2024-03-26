@@ -29,7 +29,13 @@ class ProjectCoverUpdate extends FormRequest
             'descriptions' => ['required'],
             'developer' => ['required'],
             'maitre_ouvre' => ['required'],
-            // 'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'],
+            'typologie' => ['nullable'],
+            'programme' => ['nullable'],
+            'procedure' => ['nullable'],
+            'signaletique' => ['nullable'],
+            'surface' => ['nullable'],
+            'realisation' => ['nullable'],
+            'volume' => ['nullable'],
             'additional_images.*' => ['nullable', 'image', 'mimes:jpg,bmp,png,jpeg', 'max:2048'],
         ];
     }

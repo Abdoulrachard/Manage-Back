@@ -28,6 +28,9 @@ class EquipeCoverUpdate extends FormRequest
             'descriptions' => ['required'],
             'formations' => ['required'],
             'selections' => ['required'],
+            'affilations' => ['nullable'],
+            'curiculum' => ['nullable'],
+            'links' => ['nullable'],
             // 'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'],
             'additional_images.*' => ['nullable', 'image', 'mimes:jpg,bmp,png,jpeg', 'max:2048'], 
         ];

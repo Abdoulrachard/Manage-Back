@@ -29,6 +29,9 @@ class EquipeFormRequest extends FormRequest
             'formations' => ['required'],
             'selections' => ['required'],
             'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'],
+            'affilation' => ['nullable'],
+            'curiculum' => ['nullable'],
+            'links' => ['nullable'],
             'additional_images.*' => ['nullable', 'image', 'mimes:jpg,bmp,png,jpeg', 'max:2048'], 
         ];
     }
