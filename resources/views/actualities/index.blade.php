@@ -14,7 +14,7 @@
                 <div class="p-6 text-gray-900">
                     <div class="d-flex justify-content-between align-items-center">
                         <h1> <strong>LES ACTUALITES</strong></h1>
-                        <a href="{{ route('actuality.create') }}" class="btn btn-primary">Ajouter un actu</a>
+                        <a href="{{ route('actuality.create') }}" class="d-flex align-items-center btn btn-primary">Ajouter un actu <i class="fas fa-plus" style="margin-left:5px ;"></i></a>
                     </div>
                     <table class="table table-striped">
                         <thead>
@@ -35,11 +35,11 @@
                             <td>{{ $actuality->title}}</td>
                             <td>
                                 <div class="d-flex gap-2 justify-content-end w-100">
-                                    <a href="{{ route('actuality.edit', $actuality)}}" class="btn btn-primary">Editer</a>
+                                    <a href="{{ route('actuality.edit', $actuality)}}" class="d-flex align-items-center btn btn-primary">Editer<i class="far fa-pen-to-square"  style="margin-left:5px ;"></i></a>
                                     <form action="{{ route('actuality.destroy', $actuality)}}" method="post">
                                         @csrf
                                         @method('delete')
-                                        <button class="btn btn-danger">Supprimer</button>
+                                        <button class="d-flex align-items-center btn btn-danger">Supprimer<i class="fas fa-trash" style="margin-left:5px ;"></i></button>
                                     </form>
                                 </div>
                             </td>

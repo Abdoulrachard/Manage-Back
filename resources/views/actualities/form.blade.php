@@ -33,7 +33,7 @@
                     </x-forms.select>
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input type="file"  name='cover' :value="$actuality->cover_path" label='Importez une image'   />
+                    <x-forms.input type="file"  name='cover' :value="$actuality->cover_path" label='Importez une image(Couverture)'   />
                     @if ($actuality->cover_path)
                         <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300"style="display: flex; justify-content: center;">
                             <img src="{{ asset("/storage/actualities/covers/" . $actuality->cover_path) }}" alt="Image actuelle"
@@ -42,23 +42,25 @@
                     @endif
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input type="file" name='additional_images[]' label='Importez des images' multiple="true" />
-                    @if ($actuality->galleries->isNotEmpty())
+                    <x-forms.input type="file" name='additional_images[]' label='Importez des images(Supplementaire)' multiple="true" />
+                    <div class="row gap-2">
+                        @if ($actuality->galleries())
                         @foreach ($actuality->galleries as $gallery)
-                            <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; justify-content: center;">
+                            <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; align-items:center; ">
                                 <img src="{{ asset("/storage/actualities/additional_images/" . $gallery->path) }}" alt="Image supplémentaire"
                                     class="w-full h-full object-cover" style="width: 100%; height: auto;">
                             </div>
                         @endforeach
                     @endif
+                    </div>
                 </div>
-                
+            </div>
                 
                 <div class="col-md-12 ">
                     <x-forms.textarea name='description' :value="$actuality->description" label='Descriptions' />
                 </div>
             </div>
-            <div class="text-center mt-5">
+            <div class="text-center mt-5"  style="    padding-bottom: 50px; ">
                 <button class="btn btn-primary w-25">
                     @if ($actuality->exists)
                         Modifier

@@ -19,7 +19,7 @@ class ActualityCollection extends JsonResource
     {
         return [
             'id' => $this->id,
-            'cover' => $this->cover,
+            'cover_path' => $this->cover_path,
             'description' => $this->description,
             'title' => $this->title,
             'category'=> $this->category,

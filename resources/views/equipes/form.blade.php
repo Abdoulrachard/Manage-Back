@@ -45,30 +45,33 @@
                     <x-forms.input name='selections' :value="$equipe->selections" label="Selection des projets  :"  />
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input type="file"  name='cover' :value="$equipe->cover" label='Importez une image' multiple=true  />
-                    @if ($equipe->cover)
-                        <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; justify-content: center;">
-                            <img src="{{ asset("/storage/equipes/covers/" . $equipe->cover->path) }}" alt="Image actuelle"
-                                class="w-full h-full object-cover" style="width: 100% important !; height: auto;">
+                    <x-forms.input type="file"  name='cover' :value="$equipe->cover_path" label='Importez une image(Couverture)'   />
+                    @if ($equipe->cover_path)
+                        <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300"style="display: flex; justify-content: center;">
+                            <img src="{{ asset("/storage/equipes/covers/" . $equipe->cover_path) }}" alt="Image actuelle"
+                                class="w-full h-full object-cover" style="width: 100%; height: auto;">
                         </div>
                     @endif
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input type="file" name='additional_images[]' label='Importez des images' multiple="true" />
-                    @if ($equipe->galleries->isNotEmpty())
+                    <x-forms.input type="file" name='additional_images[]' label='Importez des images(Supplementaire)' multiple="true" />
+                    <div class="row gap-2">
+                        @if ($equipe->galleries())
                         @foreach ($equipe->galleries as $gallery)
-                            <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; justify-content: center;">
+                            <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; align-items:center; ">
                                 <img src="{{ asset("/storage/equipes/additional_images/" . $gallery->path) }}" alt="Image supplémentaire"
                                     class="w-full h-full object-cover" style="width: 100%; height: auto;">
                             </div>
-                        @endforeachw
+                        @endforeach
                     @endif
+                    </div>
                 </div>
+            </div>
                 <div class="col-md-12 ">
                     <x-forms.textarea name='descriptions' :value="$equipe->descriptions" label='Descriptions' />
                 </div>
             </div>
-            <div class="text-center mt-5">
+            <div class="text-center mt-5"  style="    padding-bottom: 50px; ">
                 <button class="btn btn-primary w-25">
                     @if ($equipe->exists)
                         Modifier

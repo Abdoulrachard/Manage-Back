@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('galleries', function (Blueprint $table) {
-            $table->id();
-            $table->string('path', 255);
-            $table->integer('galleriestable_id');
-            $table->string('galleriestable_type');
-            $table->timestamps();
+        Schema::table('projects', function (Blueprint $table) {
+            $table->string('title');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('galleries');
+        Schema::table('projects', function (Blueprint $table) {
+            //
+        });
     }
 };

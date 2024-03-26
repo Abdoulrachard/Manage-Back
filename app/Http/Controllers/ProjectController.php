@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectFormRequest;
 use App\Http\Requests\CoverUpdateRequest;
+use App\Http\Requests\ProjectCoverUpdate;
 use App\Http\Resources\ProjectCollection;
 use App\Models\Project;
 use App\Models\Category;
@@ -26,55 +27,37 @@ class ProjectController extends Controller
 
     public function store(ProjectFormRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
-
+        $validatedData = $request->validated();
+        
             // Traitement de la couverture principale
-            $cover = Gallery::create(['path' => $this->upload_file($request, 'cover', 'projects/covers')]);
-            $validatedData['cover_id'] = $cover->id;
+            $validatedData['cover_path'] = $this->upload_file($request->file('cover'), 'cover', 'projects/covers');
             unset($validatedData['cover']);
 
-            // Création du projet
+            // Création de l'actualité
             $project = Project::create($validatedData);
-
+        
             // Traitement des images supplémentaires
             if ($request->hasFile('additional_images')) {
-                $additionalImages = [];
                 foreach ($request->file('additional_images') as $image) {
-                    $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'projects/additional_images')]);
-                    $additionalImages[] = $gallery->id;
+                    // Création de la galerie associée à l'actualité nouvellement créée
+                    $project->galleries()->create(['path' => $this->upload_file($image, 'additional_images', 'projects/additional_images'),]);
                 }
-                $project->galleries()->attach($additionalImages);
             }
-
-            toastr()->success("Le projet a bien été créé !", 'Congrats', ['timeOut' => 8000]);
+        
+            toastr()->success(" Le project a bien été créée ! ", 'Congrats', ['timeOut' => 8000]);
             return redirect()->route('project.index');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
     }
-
-    public function edit(Project $project)
-    {
-        return view('projects.form', ['project' => $project]);
-    }
-
-    public function show(Project $project)
-    {
-        return $this->success(new ProjectCollection($project));
-    }
-
-    public function update(ProjectFormRequest $request, Project $project)
+    
+    public function update(ProjectCoverUpdate $request, Project $project)
     {
         $data = $request->validated();
 
         // Traitement de la couverture principale
         if ($request->hasFile('cover')) {
-            Storage::delete("public/projects/covers/{$project->cover->path}");
-            $cover = Gallery::find($project->cover_id);
-            $cover->update(['path' => $this->upload_file($request, 'cover', 'projects/covers')]);
-            $data['cover_id'] = $cover->id;
+            Storage::delete("public/projects/covers/{$project->cover_path}");
+            $project->update(['cover_path' => $this->upload_file($request->file('cover'), 'cover', 'projects/covers')]);
         }
+        
         unset($data['cover']);
 
         // Traitement des images supplémentaires
@@ -87,12 +70,21 @@ class ProjectController extends Controller
             $project->galleries()->sync($additionalImages);
         }
 
-        // Mise à jour du projet
+        // Mise à jour de l'actualité
         $project->update($data);
-        toastr()->success("Le projet a bien été modifié !", 'Congrats', ['timeOut' => 8000]);
+        toastr()->success(" Le project a bien été modifiée ! ", 'Congrats', ['timeOut' => 8000]);
         return redirect()->route('project.index');
     }
 
+    public function edit(Project $project)
+    {
+        return view('projects.form', ['project' => $project]);
+    }
+
+    public function show(Project $project)
+    {
+        return $this->success(new ProjectCollection($project));
+    }
     public function destroy(Project $project)
     {
         $project->delete();

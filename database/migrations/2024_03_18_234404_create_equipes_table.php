@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('equipes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cover_id')->constrained("galleries")->onDelete('CASCADE');
+            $table->string('cover_path');
             $table->string('name');
             $table->string('posted');
             $table->longText('descriptions');
@@ -26,12 +26,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('equipe_gallery', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('equipe_id')->constrained()->onDelete('cascade');
-            $table->foreignId('gallery_id')->constrained()->onDelete('cascade');
-            $table->timestamps();
-        });
+       
     }
 
     /**
@@ -39,7 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('equipe_gallery');
         Schema::dropIfExists('equipes');
     }
 };

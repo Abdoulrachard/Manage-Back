@@ -22,6 +22,9 @@
                 <div class="col-md-6">
                     <x-forms.input name='year' :value="$project->year" label='Année :' />
                 </div>
+                <div class="col-md-6">
+                    <x-forms.input name='title' :value="$project->title" label='Titre :' />
+                </div>
                
                 <div class="col-md-6">
                     <x-forms.input name='project_name' :value="$project->project_name" label='Nom du Projet :' />
@@ -56,32 +59,34 @@
                 <div class="col-md-6">
                     <x-forms.input name='volume' :value="$project->volume" label="Volume  :"  />
                 </div>
-                <div class="col-md-6">
-                    <x-forms.input type="file"  name='cover' :value="$project->cover" label='Importez une image' multiple=true  />
-                    @if ($project->cover)
-                        <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; justify-content: center;">
-                            <img src="{{ asset("/storage/projects/covers/" . $project->cover->path) }}" alt="Image actuelle"
-                                class="w-full h-full object-cover" style="width: 100% important !; height: auto;">
+            <div class="col-md-6">
+                <x-forms.input type="file"  name='cover' :value="$project->cover_path" label='Importez une image(Couverture)' />
+                @if ($project->cover_path)
+                    <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300"style="display: flex; justify-content: center;">
+                        <img src="{{ asset("/storage/projects/covers/" . $project->cover_path) }}" alt="Image actuelle"
+                            class="w-full h-full object-cover" style="width: 100%; height: auto;">
+                    </div>
+                @endif
+            </div>
+            <div class="col-md-6">
+                <x-forms.input type="file" name='additional_images[]' label='Importez des images(Supplementaire)' multiple="true" />
+                <div class="row gap-2">
+                    @if ($project->galleries())
+                    @foreach ($project->galleries as $gallery)
+                        <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; align-items:center; ">
+                            <img src="{{ asset("/storage/projects/additional_images/" . $gallery->path) }}" alt="Image supplémentaire"
+                                class="w-full h-full object-cover" style="width: 100%; height: auto;">
                         </div>
-                    @endif
-                </div>
-                <div class="col-md-6">
-                    <x-forms.input type="file" name='additional_images[]' label='Importez des images' multiple="true" />
-                    @if ($project->galleries->isNotEmpty())
-                        @foreach ($project->galleries as $gallery)
-                            <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300" style="display: flex; justify-content: center;">
-                                <img src="{{ asset("/storage/projects/additional_images/" . $gallery->path) }}" alt="Image supplémentaire"
-                                    class="w-full h-full object-cover" style="width: 100%; height: auto;">
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
+                    @endforeach
+                @endif
+            </div>
+            </div>
                 <div class="col-md-12 ">
                     <x-forms.textarea name='descriptions' :value="$project->descriptions" label='Descriptions' />
                 </div>
             </div>
-            <div class="text-center mt-5">
-                <button class="btn btn-primary w-25">
+            <div class="text-center mt-5  " style="    padding-bottom: 50px; ">
+                <button class="btn btn-primary w-25 ">
                     @if ($project->exists)
                         Modifier
                     @else
@@ -89,6 +94,7 @@
                     @endif
                 </button>
             </div>
+        </div>
         </form>
     </div>
 </x-app-layout>

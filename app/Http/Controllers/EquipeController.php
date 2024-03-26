@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Http\Requests\CoverUpdateRequest;
+use App\Http\Requests\EquipeCoverUpdate;
 use App\Http\Requests\EquipeFormRequest;
 use App\Http\Resources\EquipeCollection;
 use App\Models\Equipe;
@@ -26,36 +27,56 @@ class EquipeController extends Controller
         return view('equipes.form', ['equipe' => $equipe,]);
     }
 
-
     public function store(EquipeFormRequest $request)
     {
-        try {
-            $validatedData = $request->validated();
-    
+        $validatedData = $request->validated();
+        
             // Traitement de la couverture principale
-            $cover = Gallery::create(['path' => $this->upload_file($request, 'cover', 'equipes/covers')]);
-            $validatedData['cover_id'] = $cover->id;
+            $validatedData['cover_path'] = $this->upload_file($request->file('cover'), 'cover', 'equipes/covers');
             unset($validatedData['cover']);
-    
-            // Création de l'équipe
+
+            // Création de l'actualité
             $equipe = Equipe::create($validatedData);
-    
+        
             // Traitement des images supplémentaires
             if ($request->hasFile('additional_images')) {
-                $additionalImages = [];
                 foreach ($request->file('additional_images') as $image) {
-                    $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'equipes/additional_images')]);
-                    $additionalImages[] = $gallery->id;
+                    // Création de la galerie associée à l'actualité nouvellement créée
+                    $equipe->galleries()->create(['path' => $this->upload_file($image, 'additional_images', 'equipes/additional_images'),]);
                 }
-                $equipe->galleries()->attach($additionalImages);
             }
-    
-            toastr()->success("L'équipe a bien été créée !", 'Congrats', ['timeOut' => 8000]);
+        
+            toastr()->success(" L'equipe a bien été créée ! ", 'Congrats', ['timeOut' => 8000]);
             return redirect()->route('equipe.index');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
-        }
     }
+    
+    public function update(EquipeCoverUpdate $request, Equipe $equipe)
+    {
+        $data = $request->validated();
+
+        // Traitement de la couverture principale
+        if ($request->hasFile('cover')) {
+            Storage::delete("public/equipes/covers/{$equipe->cover_path}");
+            $equipe->update(['cover_path' => $this->upload_file($request->file('cover'), 'cover', 'equipes/covers')]);
+        }
+        
+        unset($data['cover']);
+
+        // Traitement des images supplémentaires
+        if ($request->hasFile('additional_images')) {
+            $additionalImages = [];
+            foreach ($request->file('additional_images') as $image) {
+                $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'equipes/additional_images')]);
+                $additionalImages[] = $gallery->id;
+            }
+            $equipe->galleries()->sync($additionalImages);
+        }
+
+        // Mise à jour de l'actualité
+        $equipe->update($data);
+        toastr()->success(" L'equipe a bien été modifiée ! ", 'Congrats', ['timeOut' => 8000]);
+        return redirect()->route('equipe.index');
+    } 
 
     public function edit(Equipe $equipe)
     {
@@ -67,34 +88,6 @@ class EquipeController extends Controller
         return $this->success(new EquipeCollection($equipe)) ;
     }
 
-    public function update(EquipeFormRequest $request, Equipe $equipe)
-{
-    $data = $request->validated();
-
-    // Traitement de la couverture principale
-    if ($request->hasFile('cover')) {
-        Storage::delete("public/equipes/covers/{$equipe->cover->path}");
-        $cover = Gallery::find($equipe->cover_id);
-        $cover->update(['path' => $this->upload_file($request, 'cover', 'equipes/covers')]);
-        $data['cover_id'] = $cover->id;
-    }
-    unset($data['cover']);
-
-    // Traitement des images supplémentaires
-    if ($request->hasFile('additional_images')) {
-        $additionalImages = [];
-        foreach ($request->file('additional_images') as $image) {
-            $gallery = Gallery::create(['path' => $this->upload_file($image, 'additional_images', 'equipes/additional_images')]);
-            $additionalImages[] = $gallery->id;
-        }
-        $equipe->galleries()->sync($additionalImages);
-    }
-
-    // Mise à jour de l'équipe
-    $equipe->update($data);
-    toastr()->success("L'équipe a bien été modifiée !", 'Congrats', ['timeOut' => 8000]);
-    return redirect()->route('equipe.index');
-}
     public function destroy(Equipe $equipe)
     {
         $equipe->delete();

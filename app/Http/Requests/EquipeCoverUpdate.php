@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProjectFormRequest extends FormRequest
+class EquipeCoverUpdate extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +22,14 @@ class ProjectFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'year' =>   ['required'],
-            'project_name' => ['required'],
-            'title' => ['required'],
-            'city' => ['required'],
+            'name' =>   ['required'],
+            'posted' => ['required'],
+            'domaine_competence' => ['required'],
             'descriptions' => ['required'],
-            'developer' => ['required'],
-            'maitre_ouvre' => ['required'],
-            'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'],
-            'additional_images.*' => ['nullable', 'image', 'mimes:jpg,bmp,png,jpeg', 'max:2048'],
+            'formations' => ['required'],
+            'selections' => ['required'],
+            // 'cover' => ['required', 'mimes:jpg,bmp,png,jpeg' , 'max:2048'],
+            'additional_images.*' => ['nullable', 'image', 'mimes:jpg,bmp,png,jpeg', 'max:2048'], 
         ];
     }
 }

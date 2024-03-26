@@ -25,7 +25,7 @@ class CoverUpdateRequest extends FormRequest
             'title' => ['required'],
             "description" => ['required'],
             "category_id" => ["required"],
-            
+            'additional_images.*' => ['nullable', 'image', 'mimes:jpg,bmp,png,jpeg', 'max:2048'],
         ];
     }
 }

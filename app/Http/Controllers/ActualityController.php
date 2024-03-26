@@ -53,7 +53,7 @@ class ActualityController extends Controller
             if ($request->hasFile('additional_images')) {
                 foreach ($request->file('additional_images') as $image) {
                     // Création de la galerie associée à l'actualité nouvellement créée
-                    $actuality->galleries()->create(['path' => $this->upload_file($image, 'additional_images', 'actualities/additional_images'),'actuality_id' => $actuality->id,]);
+                    $actuality->galleries()->create(['path' => $this->upload_file($image, 'additional_images', 'actualities/additional_images'),]);
                 }
             }
         
@@ -61,9 +61,6 @@ class ActualityController extends Controller
             return redirect()->route('actuality.index');
     }
     
-    
-    
-
     public function update(CoverUpdateRequest $request, Actuality $actuality)
     {
         $data = $request->validated();
