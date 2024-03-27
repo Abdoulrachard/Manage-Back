@@ -2,12 +2,11 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
-use DateTime;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class GalleryCollection extends ResourceCollection
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class GalleryCollection extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -18,9 +17,7 @@ class GalleryCollection extends ResourceCollection
     {
 
         return [
-            'id' => $this->id,
             'path' => $this->path,
-            'date' => (new DateTime($this->created_at))->format('Y-m-d'),
         ];
     }
 }

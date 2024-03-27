@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources;
 
-use Carbon\Carbon;
-use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+
 
 class ProjectCollection extends JsonResource
 {
@@ -24,7 +22,7 @@ class ProjectCollection extends JsonResource
             'project_name' => $this->project_name,
             'city'=> $this->city,
             'descriptions' => $this->descriptions,
-            'developer' => $this->updated_at,
+            'developer' => $this->developer,
             'maitre_ouvre' => $this->maitre_ouvre,
             'typologie' => $this->typologie,
             'programme' => $this->programme,
@@ -33,6 +31,7 @@ class ProjectCollection extends JsonResource
             'surface' => $this->surface,
             'realisation' => $this->realisation,
             'volume' => $this->volume,
+            'additional_images.*'=>GalleryCollection::collection($this->galleries)
         ];
     }
 }
