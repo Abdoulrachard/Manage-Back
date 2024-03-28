@@ -26,7 +26,7 @@ class EquipeCollection extends JsonResource
             'curriculum vitae' => $this->curiculum,
             'links' => $this->links,
             'selections' => $this->selections,
-            'additional_images.*'=>GalleryCollection::collection($this->galleries),
+            'additional_images'=>GalleryCollection::collection($this->galleries),
         ];
     
     }

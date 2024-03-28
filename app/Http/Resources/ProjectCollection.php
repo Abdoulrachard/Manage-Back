@@ -31,7 +31,7 @@ class ProjectCollection extends JsonResource
             'surface' => $this->surface,
             'realisation' => $this->realisation,
             'volume' => $this->volume,
-            'additional_images.*'=>GalleryCollection::collection($this->galleries)
+            'additional_images'=>GalleryCollection::collection($this->galleries)
         ];
     }
 }

@@ -25,7 +25,7 @@ class ActualityCollection extends JsonResource
             'category'=>new CategoryCollection($this->category),
             'created_at' => (new DateTime($this->created_at))->format('Y-m-d'),
             'updated_at' => (new DateTime($this->updated_at))->format('Y-m-d'),
-            'additional_images.*'=>GalleryCollection::collection($this->galleries)
+            'additional_images'=>GalleryCollection::collection($this->galleries)
         ];
     }
 }
