@@ -10,6 +10,17 @@ use Illuminate\Http\Request;
 class EquipeController extends Controller
 {
     public function index(){
-       return  EquipeCollection::collection(Equipe::all()) ;
+        $equipes = Equipe::all() ;
+        if($equipes){
+            return  $this->success(EquipeCollection::collection($equipes)) ;
+        }
+        return $this->fail();
     }
+    public function show(Equipe $equipe){
+        if($equipe->exists()){
+            return $this->success(new EquipeCollection($equipe));
+        }
+        return $this->fail();
+    }
+    
 }

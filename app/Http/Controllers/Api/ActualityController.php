@@ -10,6 +10,20 @@ use Illuminate\Http\Request;
 class ActualityController extends Controller
 {
     public function index(){
-        return ActualityCollection::collection(Actuality::all())  ;
+
+        $actualities = Actuality::all();
+        if ($actualities) {
+            return $this->success(ActualityCollection::collection($actualities));
+        }
+
+        return $this->fail();
+    }
+    public function show(Actuality $actuality)
+    {
+        if ($actuality->exists()){
+            return $this->success(new ActualityCollection($actuality));
+        }
+
+        return $this->fail();
     }
 }
