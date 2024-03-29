@@ -19,6 +19,7 @@ class ProjectCollection extends JsonResource
             'id' => $this->id,
             'cover' => $this->cover_path,
             'year' => $this->year,
+            'title' => $this->title,
             'project_name' => $this->project_name,
             'city'=> $this->city,
             'descriptions' => $this->descriptions,
