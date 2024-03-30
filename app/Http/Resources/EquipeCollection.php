@@ -16,14 +16,14 @@ class EquipeCollection extends JsonResource
     {
         return [
             'id' => $this->id,
-            'cover_path' => $this->cover_path,
+            'cover' => $this->cover_path,
             'name' => $this->name,
             'posted' => $this->posted,
-            'domaine de competence'=> $this->domaine_competence,
+            'domaine_de_competence'=> $this->domaine_competence,
             'descriptions' => $this->descriptions,
             'formations' => $this->formations,
             'affilations' => $this->affilations,
-            'curriculum vitae' => $this->curiculum,
+            'curriculum' => $this->curiculum,
             'links' => $this->links,
             'selections' => $this->selections,
             'additional_images'=>GalleryCollection::collection($this->galleries),
