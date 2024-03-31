@@ -45,7 +45,7 @@
                     <x-forms.input name='selections' :value="$equipe->selections" label="Selection des projets  :"  />
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input type="file"  name='cover' :value="$equipe->cover_path" label='Importez une image(Couverture)'   />
+                    <x-forms.inputfile type="file"  name='cover' :value="$equipe->cover_path" label='Importez une image(Couverture)'   />
                     @if ($equipe->cover_path)
                         <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300"style="display: flex; justify-content: center;">
                             <img src="{{ asset("/storage/equipes/covers/" . $equipe->cover_path) }}" alt="Image actuelle"
@@ -54,7 +54,7 @@
                     @endif
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input type="file" name='additional_images[]' label='Importez des images(Supplementaire)' multiple="true" />
+                    <x-forms.inputfile type="file" name='additional_images[]' label='Importez des images(Supplementaire)' multiple="true" />
                     <div class="row gap-2">
                         @if ($equipe->galleries())
                         @foreach ($equipe->galleries as $gallery)
