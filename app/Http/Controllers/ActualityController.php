@@ -68,7 +68,7 @@ class ActualityController extends Controller
         // Traitement de la couverture principale
         if ($request->hasFile('cover')) {
             Storage::delete("public/actualities/covers/{$actuality->cover_path}");
-            $actuality->update(['cover_path' => $this->upload_file($request->file('cover'), 'cover', 'actuality/covers')]);
+            $actuality->update(['cover_path' => $this->upload_file($request->file('cover'), 'cover', 'actualities/covers')]);
         }
     
         unset($data['cover']);
