@@ -55,7 +55,6 @@
                     </div>
                 </div>
             </div>
-                
                 <div class="col-md-12 ">
                     <x-forms.textarea name='description' :value="$actuality->description" label='Descriptions' />
                 </div>
