@@ -12,7 +12,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center ">
                         <h1> <strong>LES ACTUALITES</strong></h1>
                         <a href="{{ route('actuality.create') }}" class="d-flex align-items-center btn btn-primary">Ajouter un actu <i class="fas fa-plus" style="margin-left:5px ;"></i></a>
                     </div>
