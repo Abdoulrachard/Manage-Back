@@ -24,8 +24,8 @@ class ProjectFormRequest extends FormRequest
         return [
             'year' =>   ['required'],
             'project_name' => ['required'],
-            'title' => ['required'],
-            'city' => ['required'],
+            'title' => ['nullable'],
+            'city' => ['nullable'],
             'descriptions' => ['required'],
             'developer' => ['required'],
             'maitre_ouvre' => ['required'],
