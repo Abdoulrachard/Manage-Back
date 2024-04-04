@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('cover_path');
             $table->string('year');
             $table->string('project_name');
-            $table->string('city');
+            $table->string('city')->nullable();
             $table->longText('descriptions');
             $table->string('developer');
             $table->string('maitre_ouvre');
