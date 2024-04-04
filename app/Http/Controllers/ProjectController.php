@@ -16,13 +16,13 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        return view('Projects.index', ['projects' => Project::paginate(25)]);
+        return view('projects.index', ['projects' => Project::paginate(25)]);
     }
 
     public function create()
     {
         $project = new Project();
-        return view('Projects.form', ['project' => $project]);
+        return view('projects.form', ['project' => $project]);
     }
 
     public function store(ProjectFormRequest $request)
@@ -93,7 +93,7 @@ class ProjectController extends Controller
 
     public function edit(Project $project)
     {
-        return view('Projects.form', ['project' => $project]);
+        return view('projects.form', ['project' => $project]);
     }
 
     public function show(Project $project)
