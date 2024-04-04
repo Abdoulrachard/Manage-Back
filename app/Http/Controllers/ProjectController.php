@@ -113,7 +113,7 @@ class ProjectController extends Controller
         }
     
         // Supprimer l'équipe et toutes ses relations
-        $project->delete();
+        $project->delete() ;
     
         toastr()->success("Le projet a été supprimée avec succès !", 'Félicitations', ['timeOut' => 8000]);
         return redirect()->route('project.index');
