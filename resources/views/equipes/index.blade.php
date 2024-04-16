@@ -32,12 +32,12 @@
                                 {{-- <td>{{ $equipe->name}}</td> --}}
                                 <td>{{ $equipe->posted}}</td>
                                 <td >
-                                    <div class="d-flex gap-2 justify-content-end w-100">
-                                        <a href="{{ route('equipe.edit', $equipe)}}" class="d-flex align-items-center btn btn-primary">Editer<i class="far fa-pen-to-square"  style="margin-left:5px ;"></i></a>
+                                    <div class="d-flex gap-2 justify-content-end align-items-center a w-100">
+                                        <a href="{{ route('equipe.edit', $equipe)}}" class="d-flex align-items-center  btn btn-primary">Editer<i class="far fa-pen-to-square"  style="margin-left:5px ;"></i></a>
                                         <form action="{{ route('equipe.destroy', $equipe)}}" method="post">
                                             @csrf
                                             @method('delete')
-                                            <button class="d-flex align-items-center btn btn-danger">Supprimer<i class="fas fa-trash" style="margin-left:5px ;"></i></button>
+                                            <button class="d-flex align-items-center  btn btn-danger">Supprimer<i class="fas fa-trash" style="margin-left:5px ;"></i></button>
                                         </form>
                                     </div>
                                 </td>
