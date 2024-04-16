@@ -22,7 +22,7 @@ class EquipeCoverUpdate extends FormRequest
     public function rules(): array
     {
         return [
-            'name' =>   ['required'],
+            'name' =>   ['nullable'],
             'posted' => ['required'],
             'domaine_competence' => ['nullable'],
             'descriptions' => ['nullable'],

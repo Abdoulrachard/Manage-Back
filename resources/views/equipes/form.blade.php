@@ -20,31 +20,31 @@
             @method($equipe->exists ? 'PUT' : 'POST')
             <div class="row">
                 <div class="col-md-6">
-                    <x-forms.input name='name' :value="$equipe->name" label='Nom et Prénom :' />
+                    <x-forms.input name='name' :value="$equipe->name" label='Nom et Prénom (Facultatif) :' />
                 </div>
                
                 <div class="col-md-6">
-                    <x-forms.input name='posted' :value="$equipe->posted" label='Poste occupé :' />
+                    <x-forms.input name='posted' :value="$equipe->posted" label='Poste occupé : (Obligatoire)' />
+                </div>
+                {{-- <div class="col-md-6">
+                    <x-forms.input name='domaine_competence' :value="$equipe->domaine_competence" label='Domaine de compétence (Facultatif):' />
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input name='domaine_competence' :value="$equipe->domaine_competence" label='Domaine de compétence :' />
+                    <x-forms.input name='formations' :value="$equipe->formations" label='Formations (Facultatif):' />
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input name='formations' :value="$equipe->formations" label='Formations :' />
+                    <x-forms.input name='affilations' :value="$equipe->affilations" label="Affilations(Facultatif) :"  />
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input name='affilations' :value="$equipe->affilations" label="Affilations :"  />
+                    <x-forms.input name='curiculum' :value="$equipe->curiculum" label="Curriculum vitae (Facultatif):"  />
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input name='curiculum' :value="$equipe->curiculum" label="Curriculum vitae :"  />
+                    <x-forms.input name='links' :value="$equipe->links" label="Liens Partagé (Facultatif) :"  />
                 </div>
                 <div class="col-md-6">
-                    <x-forms.input name='links' :value="$equipe->links" label="Liens Partagé  :"  />
-                </div>
-                <div class="col-md-6">
-                    <x-forms.input name='selections' :value="$equipe->selections" label="Selection des projets  :"  />
-                </div>
-                <div class="col-md-6">
+                    <x-forms.input name='selections' :value="$equipe->selections" label="Selection des projets (Facultatif) :"  />
+                </div> --}}
+                <div class="col-md-12">
                     <x-forms.inputfile type="file"  name='cover' :value="$equipe->cover_path" label='Importez une image(Couverture)'   />
                     @if ($equipe->cover_path)
                         <div class="mt-2 w-20 h-20 overflow-hidden rounded-lg border border-gray-300"style="display: flex; justify-content: center;">
@@ -53,8 +53,8 @@
                         </div>
                     @endif
                 </div>
-                <div class="col-md-6">
-                    <x-forms.inputfile type="file" name='additional_images[]' label='Importez des images(Supplementaire)' multiple="true" />
+                {{-- <div class="col-md-6">
+                    <x-forms.inputfile type="file" name='additional_images[]' label='Importez des images(Supplementaire )' multiple="true" />
                     <div class="row gap-2">
                         @if ($equipe->galleries())
                         @foreach ($equipe->galleries as $gallery)
@@ -65,11 +65,11 @@
                         @endforeach
                     @endif
                     </div>
-                </div>
+                </div> --}}
             </div>
-                <div class="col-md-12 ">
+                {{-- <div class="col-md-12 ">
                     <x-forms.textarea name='descriptions' :value="$equipe->descriptions" label='Descriptions' />
-                </div>
+                </div> --}}
             </div>
             <div class="text-center mt-5"  style="    padding-bottom: 50px; ">
                 <button class="btn btn-primary w-25">
