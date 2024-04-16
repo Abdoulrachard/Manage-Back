@@ -20,7 +20,7 @@
                             <thead>
                                 <tr>
                                 <th scope="col">Id</th>
-                                <th scope="col">Nom</th>
+                                {{-- <th scope="col">Nom</th> --}}
                                 <th scope="col">Poste</th>
                                 <th scope="col" class="text-end">Actions</th>
                                 </tr>
@@ -29,7 +29,7 @@
                                 @foreach($equipes as $equipe)
                                 <tr>
                                 <th scope="row">{{ $equipe->id}}</th>
-                                <td>{{ $equipe->name}}</td>
+                                {{-- <td>{{ $equipe->name}}</td> --}}
                                 <td>{{ $equipe->posted}}</td>
                                 <td >
                                     <div class="d-flex gap-2 justify-content-end w-100">
