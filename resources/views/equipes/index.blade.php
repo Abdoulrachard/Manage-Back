@@ -22,8 +22,6 @@
                                 <th scope="col">Id</th>
                                 <th scope="col">Nom</th>
                                 <th scope="col">Poste</th>
-                                <th scope="col">Domaine</th>
-                                <th scope="col">Formation</th>
                                 <th scope="col" class="text-end">Actions</th>
                                 </tr>
                             </thead>
@@ -33,8 +31,6 @@
                                 <th scope="row">{{ $equipe->id}}</th>
                                 <td>{{ $equipe->name}}</td>
                                 <td>{{ $equipe->posted}}</td>
-                                <td>{{ $equipe->domaine_compentence }}</td>
-                                <td>{{ $equipe->formations}}</td>
                                 <td >
                                     <div class="d-flex gap-2 justify-content-end w-100">
                                         <a href="{{ route('equipe.edit', $equipe)}}" class="d-flex align-items-center btn btn-primary">Editer<i class="far fa-pen-to-square"  style="margin-left:5px ;"></i></a>
