@@ -10,7 +10,9 @@ jobs:
     
     - name: 📝 Create .env file
       run: |
-        echo "${{ secrets.PROD_ENV_FILE }}" > .env
+        echo "${{ secrets.PROD_ENV_FILE }}" | tr -d '\r' > .env.tmp
+        sed 's/[[:space:]]*$//' .env.tmp > .env
+        rm .env.tmp
     
     - name: 🔨 Build Project
       run: |
