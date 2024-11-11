@@ -66,4 +66,4 @@ jobs:
         server: ${{ secrets.FTP_SERVER}}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: ./
+        server-dir: public_html/api.cche-ch.org/
