@@ -10,9 +10,48 @@ jobs:
     
     - name: 📝 Create .env file
       run: |
-        echo "${{ secrets.PROD_ENV_FILE }}" | tr -d '\r' > .env.tmp
-        sed 's/[[:space:]]*$//' .env.tmp > .env
-        rm .env.tmp
+        {
+          echo "APP_NAME=CCHE"
+          echo "APP_ENV=production"
+          echo "APP_KEY=base64:WgsgE79AeI61TjRQyjz3AbsV4/"
+          echo "APP_DEBUG=false"
+          echo "APP_URL=https://api.cche-ch.org"
+          echo ""
+          echo "LOG_CHANNEL=stack"
+          echo "LOG_LEVEL=error"
+          echo ""
+          echo "DB_CONNECTION=mysql"
+          echo "DB_HOST=localhost"
+          echo "DB_PORT=3306"
+          echo "DB_DATABASE=cchechor_mydatabases"
+          echo "DB_USERNAME=cchechor_rachard"
+          echo "DB_PASSWORD=Rachardgeek_009"
+          echo ""
+          echo "BROADCAST_DRIVER=log"
+          echo "CACHE_DRIVER=file"
+          echo "FILESYSTEM_DISK=local"
+          echo "QUEUE_CONNECTION=sync"
+          echo "SESSION_DRIVER=file"
+          echo "SESSION_LIFETIME=120"
+          echo ""
+          echo "CORS_ALLOWED_ORIGINS=https://cche-ch.org"
+          echo "SANCTUM_STATEFUL_DOMAINS=api.cche-ch.org"
+          echo "SESSION_DOMAIN=.cche-ch.org"
+          echo ""
+          echo "MAIL_MAILER=smtp"
+          echo "MAIL_HOST=mail.cche-ch.org"
+          echo "MAIL_PORT=587"
+          echo "MAIL_USERNAME=no-reply@cche-ch.org"
+          echo "MAIL_PASSWORD=votre_password_smtp"
+          echo "MAIL_ENCRYPTION=tls"
+          echo "MAIL_FROM_ADDRESS=no-reply@cche-ch.org"
+          echo "MAIL_FROM_NAME=CCHE"
+          echo ""
+          echo "MEMCACHED_HOST=null"
+          echo "REDIS_HOST=null"
+          echo ""
+          echo "SESSION_SECURE_COOKIE=true"
+        } > .env
     
     - name: 🔨 Build Project
       run: |
