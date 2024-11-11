@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://cche-ch.com'],
+    'allowed_origins' => ['https://cche-ch.org'],
 
     'allowed_origins_patterns' => [],
 
