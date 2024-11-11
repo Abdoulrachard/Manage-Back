@@ -60,24 +60,3 @@ jobs:
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: ./api.cche-ch.org/
-        exclude: |
-          **/.git*
-          **/.git*/**
-          **/node_modules/**
-          **/tests/**
-          **/.env.example
-          **/.editorconfig
-          **/.gitattributes
-          **/.gitignore
-          **/phpunit.xml
-          **/.php-cs-fixer.cache
-          **/.env.testing
-          **/README.md
-          **/composer.lock
-          **/package-lock.json
-          **/.idea/**
-          **/.vscode/**
-          **/storage/logs/**
-          **/storage/framework/cache/**
-          **/storage/framework/sessions/**
-          **/storage/framework/views/**
