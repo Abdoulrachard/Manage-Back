@@ -53,13 +53,6 @@ jobs:
           echo "SESSION_SECURE_COOKIE=true"
         } > .env
     
-    - name: 🔨 Build Project
-      run: |
-        composer install --no-dev --optimize-autoloader
-        php artisan config:cache
-        php artisan route:cache
-        php artisan view:cache
-    
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
