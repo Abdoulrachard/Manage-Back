@@ -52,7 +52,13 @@ jobs:
           echo ""
           echo "SESSION_SECURE_COOKIE=true"
         } > .env
-    
+    - name: 🚀 Install NPM dependencies
+      run: |
+        npm install
+
+    - name: ⚙️ Build assets with Vite
+      run: |
+        npm run build
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
