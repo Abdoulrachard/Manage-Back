@@ -14,7 +14,7 @@ jobs:
           echo "APP_NAME=CCHE"
           echo "APP_ENV=production"
           echo "APP_KEY=base64:WgsgE79AeI61TjRQyjz3AbsV4/"
-          echo "APP_DEBUG=false"
+          echo "APP_DEBUG=true"
           echo "APP_URL=https://api.cche-ch.org"
           echo ""
           echo "LOG_CHANNEL=stack"
