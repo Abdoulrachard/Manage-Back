@@ -201,7 +201,7 @@ Les erreurs suivantes peuvent être retournées par l'API :
 
 ## Installation et Utilisation
 
-1. Clonez le dépôt : `git clone <url_du_dépôt>`
+1. Clonez le dépôt : `git clone https://github.com/Abdoulrachard/Manage-Back.git`
 2. Installez les dépendances : `composer install`
 3. Créez votre fichier `.env` : `cp .env.example .env`
 4. Générez votre clé d'application : `php artisan key:generate`
