@@ -19,7 +19,8 @@ return [
     'allowed_methods' => ['*'],
     'allowed_origins' => [
         'http://cche-ch.org',   
-        'https://cche-ch.org',  
+        'https://cche-ch.org', 
+        'www.cche-ch.org', 
         'localhost',            
     ],
     'allowed_origins_patterns' => [],
