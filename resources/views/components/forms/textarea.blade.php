@@ -1,8 +1,8 @@
 <div>
-    <label for="{{ $name }}"
+    <label for="myeditorinstance"
         class="block mb-2 text-sm font-medium text-gray-900">{{ $label }}</label>
     <textarea 
-        id="{{ $name }}" 
+        id="myeditorinstance" 
         name="{{ $name }}"
         class="@error($name) 
             bg-red-50 
