@@ -35,7 +35,7 @@
             dark:focus:ring-blue-500 
             dark:focus:border-blue-500 
         @enderror"
-    >{{ old($name, $value ?? '') }}</textarea>
+    >{!! old($name, $value ?? '') !!}</textarea>
     
     <p class="mt-2 text-sm {{ $errors->has($name) ? 'text-red-600 dark:text-red-500' : 'text-gray-600 dark:text-gray-400' }}">
         <span class="font-medium">
